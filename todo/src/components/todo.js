@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { newTodo, editTodo } from "../actions";
+import { newTodo } from "../actions";
+// import from "../reducers";
+import { ADD_ITEM } from '../actions/strings'
 
 class TodoList extends React.Component {
   state = {
@@ -15,7 +17,7 @@ class TodoList extends React.Component {
 
   addNewTodo = e => {
     e.preventDefault();
-    this.props.addNewTodo(this.state.newTodo);
+    this.props.newTodo(this.state.newTodo);
     this.setState({
       newTodo: ""
     });
@@ -26,31 +28,24 @@ class TodoList extends React.Component {
   //     this.props.removeTodo(id);
   //   };
 
-  editTodo = (e, id) => {
-    e.preventDefault();
-    this.props.editTodo(id);
-  };
+//   editTodo = (e, id) => {
+//     e.preventDefault();
+//     this.props.editTodo(id);
+//   };
   render() {
-    console.log(this.props);
+    // console.log(this.props.todo);
     return (
       <>
-        <div className="todo-edit">
-          {this.props.todo.map(todo => (
-            <h4 onClick={e => this.editTodo(e, todo.id)} key={todo.id}>
-              {todo.name}
-              {todo.toggle && <i className="far fa-edit" />}
-            </h4>
-            //   }
-            //           ,</div>
-            //                 <div className='todo-remove'>
-            //                 {this.props.todo.map(todo =>(
-            //                  <h4 onClick={e => this.removeTodo(e, todo.id)} key={todo.id}>
-            //                      {todo.name}
-            //               {todo.delete && <i className='far fa-trash-alt' />}
-            //               </h4>
-          ))}
+    
+    <div className="todo-list">
+          {this.props.todos.map(todos => {
+              return (<h4 key={todos.id}>
+                  {todos.todo}
+       
+              </h4>);
+          })}
         </div>
-        <form onSubmit={this.addNewTodo}>
+        <form onSubmit={ADD_ITEM}>
           <input
             type="text"
             placeholder="Add Todo"
@@ -64,13 +59,14 @@ class TodoList extends React.Component {
   }
 }
 const mSTP = state => {
+    console.log(state)
   return {
     todos: state.todos
   };
 };
 const mActionToProps = {
-  newTodo,
-  editTodo
+  newTodo
+//   editTodo
 };
 export default connect(
   mSTP,
